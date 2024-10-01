@@ -36,6 +36,14 @@ function Canvas(){
         //엔진 구동 및 렌더 진행
         Matter.Runner.run(engine);
         Matter.Render.run(render);
+        
+        //위치와 모양이 랜덤인 바디 6개 생성
+        for(let i=0;i<=5;i++){
+            let x = Math.random()*400+300;
+            let y = Math.random()*150;
+            let shape = (Math.random() <= 0.5) ? (Bodies.rectangle(x,y,40,40)):(Bodies.circle(x,y,40,40));
+            World.add(world,shape);
+        }
 
         return () => {
             Render.stop(render);
