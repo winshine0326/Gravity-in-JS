@@ -22,7 +22,7 @@ function Canvas(){
                 width:800,
                 height:600,
                 wireframes:false, //색까지 칠하기
-                background: "F5EBE0"
+                background: "beige"
             }
         });
         
