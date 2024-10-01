@@ -32,10 +32,21 @@ function Canvas(){
         const wallRight = Bodies.rectangle(800,300,60,600,{isStatic:true});
         World.add(world,[ground,wallLeft,wallRight]);
 
-    })
+
+        //엔진 구동 및 렌더 진행
+        Matter.Runner.run(engine);
+        Matter.Render.run(render);
+
+        return () => {
+            Render.stop(render);
+            World.clear(engine.world, false);
+            Engine.clear(engine);
+            render.canvas.remove();
+          }; // 컴포넌트가 unmount 될 때 초기화
+
+    },[]);
     return(
-        <div>
-            <canvas ref={canvasRef}/>
+        <div ref={canvasRef}>
         </div>
     );
 }
