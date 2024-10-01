@@ -10,9 +10,10 @@ function Canvas(){
         const World = Matter.World;
         const Bodies = Matter.Bodies;
         const Render = Matter.Render
-        const engine = Engine.create() //엔진 생성
+        const engine = Engine.create(); //엔진 생성
         const world = engine.world;
-        engine.gravity.y = 1.5
+        engine.gravity.y = 1.5;
+        const runner = Matter.Runner.create();
         
         //렌더 설정
         const render = Render.create({
@@ -21,6 +22,7 @@ function Canvas(){
             options: {
                 width:800,
                 height:600,
+                isStatic:false,
                 wireframes:false, //색까지 칠하기
                 background: "white"
             }
@@ -34,20 +36,21 @@ function Canvas(){
 
 
         //엔진 구동 및 렌더 진행
-        Matter.Runner.run(engine);
-        Matter.Render.run(render);
+        Matter.Runner.run(runner,engine);
+        Render.run(render);
         
-        //위치와 모양이 랜덤인 바디 6개 생성
+        // 위치와 모양이 랜덤인 바디 6개 생성
         for(let i=0;i<=5;i++){
             let x = Math.random()*400+300;
             let y = Math.random()*150;
-            let shape = (Math.random() <= 0.5) ? (Bodies.rectangle(x,y,40,40)):(Bodies.circle(x,y,40,40));
+            let shape = (Math.random() <= 0.5) ? 
+            (Bodies.rectangle(x,y,40,40)):(Bodies.circle(x,y,40,40));
             World.add(world,shape);
         }
 
         return () => {
             Render.stop(render);
-            World.clear(engine.world, false);
+            World.clear(world, false);
             Engine.clear(engine);
             render.canvas.remove();
           }; // 컴포넌트가 unmount 될 때 초기화
