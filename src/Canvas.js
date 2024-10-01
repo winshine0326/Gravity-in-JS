@@ -12,6 +12,7 @@ function Canvas(){
         const Render = Matter.Render
         const engine = Engine.create() //엔진 생성
         const world = engine.world;
+        engine.gravity.y = 1.5
         
         //렌더 설정
         const render = Render.create({
@@ -21,11 +22,20 @@ function Canvas(){
                 width:800,
                 height:600,
                 wireframes:false, //색까지 칠하기
+                background: "F5EBE0"
             }
         });
+        
+        // 바닥&벽 만들고 world에 추가
+        const ground = Bodies.rectangle(400,590,810,60,{isStatic:true});
+        const wallLeft = Bodies.rectangle(0,300,60,600,{isStatic:true});
+        const wallRight = Bodies.rectangle(800,300,60,600,{isStatic:true});
+        World.add(world,[ground,wallLeft,wallRight]);
+
     })
     return(
-        <div ref={canvasRef}>
+        <div>
+            <canvas ref={canvasRef}/>
         </div>
     );
 }
