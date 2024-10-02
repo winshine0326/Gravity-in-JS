@@ -35,6 +35,21 @@ function Canvas(){
         World.add(world,[ground,wallLeft,wallRight]);
 
 
+        //마우스 드래그 기능
+        const mouse = Matter.Mouse.create(render.canvas) //마우스 객체 생성
+        const mouseConstraint = Matter.MouseConstraint.create(engine,{ //마우스로 화면에서 바디를 클릭, 드래그 할 수 있도록 함
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2, // 탄성정도
+                    render:{
+                        visible: false //마우스 드래그 시 제약조건 보이기X
+                    }
+                }
+            })
+        World.add(world,mouseConstraint)
+
+
+
         //엔진 구동 및 렌더 진행
         Matter.Runner.run(runner,engine);
         Render.run(render);
@@ -48,6 +63,7 @@ function Canvas(){
             World.add(world,shape);
         }
 
+        
         return () => {
             Render.stop(render);
             World.clear(world, false);
